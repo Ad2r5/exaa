@@ -1,0 +1,45 @@
+package ec.edu.utpl.computacion.proava;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        String[][] matriz = {
+                {"Java", "Python", "Java"},
+                {"C++", "Java", "Go"},
+                {"Java", "Rust", "Java"}
+        };
+
+        String palabraJ = "Java";
+
+        List<Busca> hilos = new ArrayList<>();
+
+        System.out.println("Buscando palabra: \"" + palabraJ + "\"");
+
+        for (int i = 0; i < matriz.length; i++) {
+            Busca hilo = new Busca(
+                    matriz[i],palabraJ,i);
+
+            hilos.add(hilo);
+            hilo.start();
+        }
+
+        int total = 0;
+        for (Busca hilo : hilos) {
+
+            try {
+                hilo.join();
+                total += hilo.getContador();
+
+            } catch (InterruptedException e) {
+                System.out.println("Error en hilo: " + e.getMessage());
+            }
+        }
+
+        System.out.println("----------------------------------------------");
+        System.out.println("Resultado Total: La palabra \"" + palabraJ + "\" aparece " + total + " veces.");
+    }
+}
