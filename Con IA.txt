@@ -1,0 +1,143 @@
+CON IA
+
+Nombre de la herramienta de IA generativa empleada: Char Gpt
+• Indicación de si se utilizó una cuenta gratuita o de pago: Version gratuita
+• Listado completo de los prompts utilizados durante el desarrollo.: Como puedo mejorar estos codigos
+y me dio esto:
+package ec.edu.utpl.computacion.proava;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        String[][] matriz = {
+                {"Java", "Python", "Java"},
+                {"C++", "Java", "Go"},
+                {"Java", "Rust", "Java"}
+        };
+
+        String palabraJ = "Java";
+
+        List<Busca> hilos = new ArrayList<>();
+
+        System.out.println("MATRIZ:");
+
+        for (String[] fila : matriz) {
+
+            for (String palabra : fila) {
+
+                System.out.print(palabra + "\t");
+            }
+
+            System.out.println();
+        }
+
+        System.out.println("\nBuscando palabra: \"" + palabraJ + "\"\n");
+
+        for (int i = 0; i < matriz.length; i++) {
+
+            Busca hilo = new Busca(
+                    matriz[i],
+                    palabraJ,
+                    i
+            );
+
+            hilos.add(hilo);
+
+            hilo.start();
+        }
+
+        int total = 0;
+
+        for (Busca hilo : hilos) {
+
+            try {
+
+                hilo.join();
+
+                total += hilo.getContador();
+
+            } catch (InterruptedException e) {
+
+                System.out.println(
+                        "Error en hilo: " + e.getMessage());
+            }
+        }
+
+        System.out.println("\n-----------------------------------");
+
+        System.out.println(
+                "Resultado Total: La palabra \"" +
+                palabraJ +
+                "\" aparece " +
+                total +
+                " veces.");
+
+        System.out.println("-----------------------------------");
+    }
+}
+
+package ec.edu.utpl.computacion.proava;
+
+public class Busca extends Thread {
+
+    private String[] fila;
+
+    private String palabraJ;
+
+    private int cont;
+
+    private int numFila;
+
+    public Busca(String[] fila,
+                 String palabraJ,
+                 int numFila) {
+
+        this.fila = fila;
+
+        this.palabraJ = palabraJ;
+
+        this.numFila = numFila;
+
+        this.cont = 0;
+    }
+
+    @Override
+    public void run() {
+
+        for (int i = 0; i < fila.length; i++) {
+
+            if (fila[i].equalsIgnoreCase(palabraJ)) {
+
+                cont++;
+
+                System.out.println(
+                        "Hilo-" + numFila +
+                        " encontró \"" +
+                        palabraJ +
+                        "\" en columna " + i);
+            }
+        }
+
+        System.out.println(
+                "Hilo-" + numFila +
+                " finalizado. Encontrados: " + cont);
+    }
+
+    public int getContador() {
+
+        return cont;
+    }
+}
+
+
+
+El programa ahora muestra:
+la matriz,
+dónde encuentra cada palabra,
+qué hilo encontró cada coincidencia.
+El código está más ordenado.
+La salida se ve más profesional.
